@@ -1,7 +1,6 @@
 Hello
 Second line
-HEAD
 Main work
 Feature work
-feature
+Conflict from branch
 Conflict from main
