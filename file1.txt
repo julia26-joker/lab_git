@@ -4,3 +4,4 @@ HEAD
 Main work
 Feature work
 feature
+Conflict from branch
