@@ -1,0 +1,23 @@
+services:
+  backend:
+    build: ./backend
+    container_name: bakery-backend
+    expose:
+      - "8000"
+    networks:
+      - bakery-net
+
+  frontend:
+    build: ./frontend
+    container_name: bakery-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - bakery-net
+
+networks:
+  bakery-net:
+    driver: bridge
+

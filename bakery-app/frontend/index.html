@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пекарня — Свежая выпечка</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🥐 Пекарня «Свежая выпечка»</h1>
+        <p>Лучшие булочки и пироги каждый день</p>
+
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="products">🍞 Товары</button>
+            <button class="tab-btn" data-tab="cart">🛒 Корзина <span id="cart-count" class="badge">0</span></button>
+            <button class="tab-btn" data-tab="account">👤 Личный кабинет</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Вкладка: Товары -->
+        <section id="tab-products" class="tab-content active">
+            <h2>Наше меню</h2>
+            <div id="product-list" class="product-grid">
+                <p class="loading">Загружаем товары...</p>
+            </div>
+        </section>
+
+        <!-- Вкладка: Корзина -->
+        <section id="tab-cart" class="tab-content">
+            <h2>🛒 Корзина</h2>
+            <div id="cart-items" class="cart-items">
+                <p class="empty">Корзина пуста</p>
+            </div>
+            <div class="cart-total">
+                <span>Итого:</span>
+                <span id="cart-total">0 ₽</span>
+            </div>
+            <button id="checkout-btn" class="checkout-btn">Оформить заказ</button>
+        </section>
+
+        <!-- Вкладка: Личный кабинет -->
+        <section id="tab-account" class="tab-content">
+            <h2>👤 Личный кабинет</h2>
+
+            <div class="account-card">
+                <h3>Профиль</h3>
+                <form id="profile-form">
+                    <label>Имя:
+                        <input type="text" id="user-name" placeholder="Введите имя">
+                    </label>
+                    <label>Email:
+                        <input type="email" id="user-email" placeholder="Введите email">
+                    </label>
+                    <button type="submit" class="save-btn">Сохранить</button>
+                </form>
+            </div>
+
+            <div class="account-card">
+                <h3>История заказов</h3>
+                <div id="order-history">
+                    <p class="empty">Заказов пока нет</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Пекарня «Свежая выпечка»</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
