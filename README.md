@@ -1,6 +1,7 @@
 # Лабораторная работа: Docker Compose, KVM и Ansible
 
 Автор: julia26-joker
+
 Репозиторий: https://github.com/julia26-joker/lab_git
 
 ## Что сделано
@@ -11,26 +12,39 @@
 
 ## Структура репозитория
 
-bakery-app/ - приложение
-  backend/ - Python FastAPI, отдаёт список товаров
-    app.py
-    requirements.txt
-    Dockerfile
-  frontend/ - статика на nginx
-    index.html
-    style.css
-    script.js
-    nginx.conf
-    Dockerfile
-  docker-compose.yml - описание двух сервисов
-ansible/ - файлы для уровней 9 и 10
-  playbook.yml
-  inventory.ini
-docs/ - описание проверки KVM для уровня 7
-  kvm.md
-.github/workflows/ - CI
-  main.yml - основная проверка
-  trivy.yml - бонус, сканирование образов
+    bakery-app/
+      backend/
+        app.py
+        requirements.txt
+        Dockerfile
+      frontend/
+        index.html
+        style.css
+        script.js
+        nginx.conf
+        Dockerfile
+      docker-compose.yml
+
+    ansible/
+      playbook.yml
+      inventory.ini
+
+    docs/
+      kvm.md
+
+    .github/workflows/
+      main.yml
+      trivy.yml
+
+Описание:
+
+- bakery-app - приложение из двух сервисов.
+- backend - Python FastAPI, отдаёт список товаров.
+- frontend - статика на nginx.
+- docker-compose.yml - описание двух сервисов.
+- ansible - файлы для уровней 9 и 10.
+- docs - описание проверки KVM для уровня 7.
+- .github/workflows - CI: main.yml (основная проверка) и trivy.yml (бонус).
 
 ## Уровень 5. Docker Compose
 
@@ -41,14 +55,14 @@ docs/ - описание проверки KVM для уровня 7
 
 Схема работы:
 
-Ноутбук (порт 8080)
-  |
-  v
-frontend (nginx, порт 80)
-  |
-  | запросы /api/* идут через proxy_pass
-  v
-backend (FastAPI, порт 8000)
+    Ноутбук (порт 8080)
+        |
+        v
+    frontend (nginx, порт 80)
+        |
+        | запросы /api/* идут через proxy_pass
+        v
+    backend (FastAPI, порт 8000)
 
 Команды запуска:
 
@@ -97,7 +111,7 @@ Inventory ansible/inventory.ini содержит адрес VM и парамет
     cd ansible
     ansible-playbook -i inventory.ini playbook.yml
 
-После запуска приложение доступно с ноутбука по адресу http://<IP_VM>:8080.
+После запуска приложение доступно с ноутбука по адресу http://IP_VM:8080.
 
 ## Уровень 10. Идемпотентность playbook
 
@@ -111,7 +125,7 @@ Playbook можно запускать повторно без ручного и
 - community.docker.docker_compose_v2 - не пересоздаёт контейнеры, если их конфигурация не изменилась.
 - uri - только проверяет доступность, ничего не меняет.
 
-Если запустить playbook два раза подряд, второй запуск должен завершиться успешно, а в отчёте у большинства задач будет changed=0.
+Если запустить playbook два раза подряд, второй запуск должен завершиться успешно, а у большинства задач в отчёте будет changed=0.
 
 ## Бонус. Trivy в GitHub Actions
 
