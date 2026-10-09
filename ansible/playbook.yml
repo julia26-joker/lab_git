@@ -1,0 +1,63 @@
+---
+- name: Deploy Bakery App on KVM VM
+  hosts: bakery
+  become: yes
+  vars:
+    app_dir: /opt/bakery-app
+    docker_user: ubuntu
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install Docker and prerequisites
+      apt:
+        name:
+          - docker.io
+          - docker-compose-v2
+          - python3-pip
+        state: present
+
+    - name: Ensure Docker is running and enabled
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add user to docker group
+      user:
+        name: "{{ docker_user }}"
+        groups: docker
+        append: yes
+
+    - name: Create app directory
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        owner: "{{ docker_user }}"
+        group: "{{ docker_user }}"
+        mode: "0755"
+
+    - name: Copy bakery-app to VM
+      synchronize:
+        src: ../bakery-app/
+        dest: "{{ app_dir }}/"
+        delete: no
+      delegate_to: localhost
+
+    - name: Start application via Docker Compose
+      community.docker.docker_compose_v2:
+        project_src: "{{ app_dir }}"
+        state: present
+        build: always
+
+    - name: Wait for frontend to be available
+      uri:
+        url: "http://localhost:8080"
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 10
+      delay: 3
